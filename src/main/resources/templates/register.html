@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户注册</title>
+<div th:replace="header::bootstrap"></div>
+<style>
+form.form-horizontal{
+margin-top: 80px;
+margin-left: 80px;
+}
+</style>
+   <script src="/jquery/jquery-2.2.4.min.js"></script>
+    <script>
+
+        function a1(){
+            $.post({
+                url:"/a3",
+                data:{'name':$("#firstname").val()},
+                success:function (data) {
+                    if (data.toString()=='用户名已存在！'){
+                        $("#userInfo").css("color","red");
+                        $("#firstname").css("color","red");
+                    }else{
+                        $("#userInfo").css("color","green");
+                        $("#firstname").css("color","green");
+                    }
+                    $("#userInfo").html(data);
+                }
+            });
+        }
+        function a2(){
+            $.post({
+                url:"",
+                data:{'pwd':$("#pwd").val()},
+                success:function (data) {
+                    if (data.toString()=='OK'){
+                        $("#pwdInfo").css("color","green");
+                    }else {
+                        $("#pwdInfo").css("color","red");
+                    }
+                    $("#pwdInfo").html(data);
+                }
+            });
+        }
+        
+        function test(){
+            $.post({
+                url:"/a4",
+                data:{'name':$("#searchname").val()},
+                //dataType:"json",
+                success:function (data) {
+                 	for (var i=0;i<data.length;i++)
+                	{ 
+                 		$("#userInfos"+i).html(data[i] + "<br>");
+                 		//$("#userInfos").html(data + "<br>");
+                	    //document.write(data[i] + "<br>");
+                	}
+                	
+                	//$("#userInfos").css("color","green");
+                    
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div th:replace="header::header"></div>
+<form class="form-horizontal" role="form" method="post" >
+		<div class="form-group">
+			<label for="firstname" class="col-sm-2 control-label">用户名</label>
+			<div class="col-sm-4">
+				<input type="text" name="user" class="form-control" id="firstname" 
+					placeholder="请输入用户名" onblur="a1()">
+					<span id="userInfo"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="lastname" class="col-sm-2 control-label">密码</label>
+			<div class="col-sm-4">
+				<input type="password" name="pass" class="form-control"
+					id="lastname" placeholder="请输入密码">
+			</div>
+			</div>
+		<div class="form-group">
+			<label for="lastname" class="col-sm-2 control-label">确认密码</label>
+			<div class="col-sm-4">
+				<input type="password" name="pass2" class="form-control"
+					id="lastname" placeholder="请确认输入密码">
+			</div>
+			</div>
+		<div class="form-group">
+			<label for="lastname" class="col-sm-2 control-label">确认密码</label>
+			<div class="col-sm-4">
+				<input type="text" name="search" class="form-control"
+					id="searchname" placeholder="搜索测试" oninput="test()">
+			</div>
+			</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">注册</button>
+			</div>
+		</div>
+	</form>
+	
+<a th:text="${error}"></a>
+<div id="userInfos"> </div>
+<div id="userInfos0"> </div>
+<div id="userInfos1"> </div>
+<div id="userInfos2"> </div>
+<div id="userInfos3"> </div>
+</body>
+</html>

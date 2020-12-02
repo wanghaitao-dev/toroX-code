@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="header::header"></div>
+<form role="form" method="post">	
+	<div class="container" style="padding-top: 45px;">
+    <table class="table">
+  <tbody>
+    <tr class="warning" th:each="buycargoods:${buyCarGoods}">
+      <td style="width: 10px;"><div class="checkbox">
+    <label>
+    </label></div>
+    </td>
+      <td><img alt="加载中" src="images/kittens.jpg" style="width: 180px;height: 120px; ">
+      <a style="padding-left: 20px;" th:text="${buycargoods.name}"></a>
+      <a style="padding-left: 20px;" th:text="${buycargoods.goodsSize}"></a><a th:text="${buycargoods.goodsColor}"></a>
+      </td>
+      <td><a type="button" th:href="@{/buyCarDelete(id=${buycargoods.id})}">删除</a></td>
+      <tr> 
+       <td></td>
+       <td></td>
+      </tr>
+  </tbody>
+</table> 
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<table class="table">
+  <thead>
+    <tr>
+      <th>产品</th>
+      <th>用户</th>
+      <th>收件人</th>
+      <th>联系方式</th>
+      <th>收货地址</th>
+      <th>时间</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr class="active" th:each="allOrders:${allOrder}">
+      <td th:text="${allOrders.goods}"></td>
+      <td th:text="${allOrders.user}"></td>
+      <td th:text="${allOrders.name}"></td>
+      <td th:text="${allOrders.phone}"></td>
+      <td th:text="${allOrders.address}"></td>
+      <td th:text="${allOrders.time}"></td></tr>
+  </tbody>
+</table>
+</body>
+</html>

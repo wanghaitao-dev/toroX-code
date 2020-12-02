@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="bootstrap">
+		<!--引入bootstrap的css文件  -->
+		<link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.css">
+		<!-- 引入jquery的js文件 -->
+		<script type="text/javascript" src="/jquery/jquery-2.2.4.min.js"></script>
+		<!-- 引入bootstrap的js文件 -->
+		<script type="text/javascript"
+			src="/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+	</div>
+
+	<div th:fragment="header">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid row">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">toroX商城</a>
+				</div>
+				<ul class="nav navbar-nav navbar-left" >
+					<li><a href="#">男装</a></li>
+					<li><a href="#">女装</a></li>
+					<li><a href="#">童装</a></li>
+					<li><a href="#">精选</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="register" th:if="${session.userp==null}"><span
+							class="glyphicon glyphicon-user"></span> 注册</a></li>
+					<li><a href="login" th:if="${session.userp==null}"><span
+							class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+					<li><a th:text="'欢迎'+ ${session.userp.user}+'登录'"
+						th:if="${session.userp!=null}"></a></li>
+					<li><a href="logout" th:if="${session.userp!=null}">退出</a></li>
+					<li><a href="order" th:if="${session.userp!=null}">我的</a></li>
+					<li><a href="buyCar" th:if="${session.userp!=null}">购物车</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+</body>
+</html>

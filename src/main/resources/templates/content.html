@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="header::header"></div>
+<div style="margin-top:52px; ">
+<div class="row">
+    <div th:each="goodslists:${goodslist}" class="col-sm-6 col-md-3">
+        <div class="thumbnail">
+            <img th:src="'/images/'+${goodslists.pic}" 
+            alt="通用的占位符缩略图">
+            <div class="caption">
+                <p></p>
+<a class="btn btn-danger btn-lg" th:href="@{/detail(id=${goodslists.id})}" style="width: 120px;">立即购买</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

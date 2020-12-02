@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>商品详情</title>
+<div th:replace="header::bootstrap"></div>
+</head>
+<body>
+<div th:replace="header::header"></div>
+<form role="form" method="post">
+<div class="container" style="padding-top: 60px;">
+<div class="row">
+<div class="col-lg-6 col-sm-9 col-xs-11">
+<img src="images/man.jpg" width="500px" height="500px">
+<!-- <img th:src="'/images/'+${goods.pic}"> -->
+</div>
+<div class="col-lg-6 col-sm-3 col-xs-1">
+<h1 th:text="${goods.name}"></h1>
+<h2 th:text="${goods.decp}"></h2>
+<div style="width: 700px;height: 150px;background: LightYellow;">
+<div class="row">
+<h3 class="col-md-2 col-xs-2" style="padding-top: 16px; font-size: 20px;">原价</h3>
+<h1 class="col-md-10 col-xs-10" style="padding-top: 15px;font-size: 20px; padding-left: 20px; text-decoration: line-through;" th:text="'￥'+${goodslist.price}"></h1>
+</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>销量<a th:text="${goods.sellCount}"></a></th>
+      <th>积分 </th>
+      <th>评价 </th>
+    </tr>
+  </thead>
+</table>
+<label for="name">尺码</label>
+<div>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline" id="optionsRadios1" value="option1" checked>选项 1
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline" id="optionsRadios2"  value="option2"> 选项 2
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline" id="optionsRadios3"  value="option2"> 选项 3
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option2"> 选项 4
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline" id="optionsRadios5"  value="option2"> 选项 5
+	</label>
+</div>
+<label for="name">颜色</label>
+<div>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline1" id="optionsRadios1" value="option1" checked> 选项 1
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline1" id="optionsRadios2"  value="option2"> 选项 2
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline1" id="optionsRadios3"  value="option2"> 选项 3
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline1" id="optionsRadios4"  value="option2"> 选项 4
+	</label>
+	<label class="radio-inline">
+		<input type="radio" name="optionsRadiosinline1" id="optionsRadios5"  value="option2"> 选项 5
+	</label>
+</div>
+<p></p>
+<button  type="submit" class="btn btn-danger btn-lg" style="width: 120px;">加入购物车</button>
+<a class="btn btn-danger btn-lg" th:href="@{/buy(id=${goods.id})}" style="width: 120px;">立即购买</a>
+</div>
+</div>
+</div>
+<div class="panel-group" id="accordion" style="padding-top: 40px;width: 1300px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" 
+                href="#collapseOne">商品详情
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+            <div class="panel-body">
+                Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred 
+                nesciunt sapiente ea proident. Ad vegan excepteur butcher vice 
+                lomo.
+            </div>
+            <div>
+            <img src="images/man.jpg"></img>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" 
+                href="#collapseTwo">评价                  
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body" th:each="comments:${comment}">
+            <table>
+<tr>
+<div style="font-size: 20px;" th:text="'用户：'+${comments.user}"></div>
+<div style="color: gray;" th:text="'时间：'+${comments.commentTime}"></div>
+<div th:text="'评价：'+${comments.commentContent}"></div>
+<div><img alt="" src="'/commentPic/'+${comments.pic}"></div>
+</tr>
+</table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function () { $('#collapseFour').collapse({
+        toggle: false
+    })});
+    $(function () { $('#collapseTwo').collapse('show')});
+    $(function () { $('#collapseThree').collapse('toggle')});
+    $(function () { $('#collapseOne').collapse('hide')});
+</script>
+</div>
+</form>
+</body>
+</html>

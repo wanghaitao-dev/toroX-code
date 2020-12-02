@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>toroX商城</title>
+<script src="/jquery/jquery-2.2.4.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+/* Custom Styles */
+ul.nav-tabs {
+	width: 140px;
+	margin-top: 20px;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+}
+
+ul.nav-tabs li {
+	margin: 0;
+	border-top: 1px solid #ddd;
+}
+
+ul.nav-tabs li:first-child {
+	border-top: none;
+}
+
+ul.nav-tabs li a {
+	margin: 0;
+	padding: 8px 16px;
+	border-radius: 0;
+}
+
+ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover {
+	color: #fff;
+	background: #0088cc;
+	border: 1px solid #0088cc;
+}
+
+ul.nav-tabs li:first-child a {
+	border-radius: 4px 4px 0 0;
+}
+
+ul.nav-tabs li:last-child a {
+	border-radius: 0 0 4px 4px;
+}
+
+ul.nav-tabs.affix {
+	top: 30px; /* Set the top position of pinned element */
+}
+</style>
+<script>
+$(document).ready(function(){
+    $("#myNav").affix({
+        offset: { 
+            top: 125 
+      }
+    });
+});
+</script>
+<script type="text/javascript">
+	$(function(){
+		countDown();
+	});
+	function countDown(){
+		//获取秒杀倒计时进行判断，0-->正在进行秒杀,-1-->秒杀结束,remailSeconds>0-->代表倒计时
+		var remailSeconds=$("#remailSeconds").val();
+		var remailMinutes=$("#remailMinutes").val();
+		//alert("remailSeconds:"+remailSeconds);
+		var timeout;		
+		if(remailSeconds>0 && remailMinutes>=0){//秒杀还没有开始，进行倒计时功能
+			$("#buyButton").attr("disabled",true);
+			$("#buyButton1").attr("disabled",true);
+			$("#buyButton2").attr("disabled",true);
+			$("#buyButton3").attr("disabled",true);
+			//倒计时
+			timeout=setTimeout(function(){
+				$("#countDown").text(remailSeconds-1);
+				$("#remailSeconds").val(remailSeconds-1);//remailSeconds这是input
+				countDown();
+			},1000);//一秒钟之后回调函数
+		}else if(remailSeconds==0 && remailMinutes!=0){
+			timeout=setTimeout(function(){
+				$("#countDown").text(remailSeconds+59);
+				$("#remailSeconds").val(remailSeconds+59);//remailSeconds这是input
+				if(remailMinutes!=0){
+					$("#countDownMinutes").text(remailMinutes-1);
+					$("#remailMinutes").val(remailMinutes-1);
+				}else{
+					$("#countDownMinutes").text(remailMinutes-1);
+					$("#remailMinutes").val(remailMinutes-0);
+				}
+				countDown();
+			},1000);//一秒钟之后回调函数
+		}else if(remailSeconds==0 && remailMinutes==0){//正在进行秒杀
+			$("#buyButton").attr("disabled",false);
+			$("#buyButton1").attr("disabled",false);
+			$("#buyButton2").attr("disabled",false);
+			$("#buyButton3").attr("disabled",false);
+			//将文案修改 df1fab4272a24cdf9432adb9fd69cb38
+			$("#miaoshaTip").html("秒杀进行中");
+			if(timeout){//如果timeout有值的情况
+				clearTimeout(timeout);
+			}
+		}else{
+			//小于0的情况，秒杀结束，将秒杀按钮设置为不可点击
+			$("#buyButton").attr("disabled",true);
+			$("#buyButton1").attr("disabled",true);
+			$("#buyButton2").attr("disabled",true);
+			$("#buyButton3").attr("disabled",true);
+			$("#miaoshaTip").html("秒杀结束");
+		}
+	}
+</script>
+<script type="text/javascript">
+function a1(){
+    $.post({
+        url:"/a4",
+        data:{'name':$("#firstname").val()},
+        success:function (data) {
+            if (data.toString()=='yes'){
+                $("#userInfo").css("color","red");
+                $("#firstname").css("color","red");
+            }else{
+                $("#userInfo").css("color","green");
+                $("#firstname").css("color","green");
+            }
+            $("#userInfo").html(data);
+        }
+    });
+}
+</script>
+</head>
+<div class="col-xs-12" th:replace="header::header"></div>
+<body data-spy="scroll" data-target="#myScrollspy" style="padding-top: 20px;">
+	<div id="myCarousel" class="carousel slide" style="width: 100%;">
+		<!-- 轮播（Carousel）指标 -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+			<li data-target="#myCarousel" data-slide-to="2"></li>
+		</ol>
+		<!-- 轮播（Carousel）项目 -->
+		<div class="carousel-inner">
+			<div class="item active">
+				<img src="/images/p1.jpg" alt="First slide">
+				<div class="carousel-caption"></div>
+			</div>
+			<div class="item">
+				<img src="/images/p2.jpg" alt="Second slide">
+				<div class="carousel-caption"></div>
+			</div>
+			<div class="item">
+				<img src="/images/p3.jpg" alt="Third slide">
+				<div class="carousel-caption"></div>
+			</div>
+		</div>
+		<!-- 轮播（Carousel）导航 -->
+		<a class="left carousel-control" href="#myCarousel" role="button"
+			data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"
+			aria-hidden="true"></span> <span class="sr-only">Previous</span>
+		</a> <a class="right carousel-control" href="#myCarousel" role="button"
+			data-slide="next"> <span
+			class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+		<div class="col-xs-2" id="myScrollspy">
+			<ul class="nav nav-tabs nav-stacked" data-spy="affix"
+				data-offset-top="185">
+				<li class="active"><a href="#section-1">活动专区</a></li>
+				<li><a href="#section-2">女装</a></li>
+				<li><a href="#section-3">童装</a></li>
+				<li><a href="#section-4">运动</a></li>
+				<li><a href="#section-5">精选</a></li>
+				<li><a href="#section-6">男装</a></li>
+			</ul>
+		</div>
+		<div class="col-xs-10">
+			<h2 id="section-1">活动专区</h2>
+			<div th:text="'开始时间: '+${#dates.format(sekill.start_time,'yyyy-MM-dd HH:mm:ss')}" style="font-size: 15px;"></div>		
+
+			<div class="panel panel-default">
+			<!-- 先取得这个时间 -->
+			<input type="hidden"  id="remailSeconds" th:value="${remailSeconds}"></input>
+			<input type="hidden"  id="remailMinutes" th:value="${remailMinutes}"></input>
+				<div class="panel-heading" id="miaoshaTip" style="color: white;background: red">
+				<span th:if="${status==1}">秒杀正在进行</span> <span th:if="${status==2}">秒杀已经结束</span>
+				<span th:if="${status==0}"><span style="color: blue;font-size: 20px;"></span>秒杀还未开始，倒计时
+				<span style="background: white;"><span id="countDownMinutes"
+				th:text="${remailMinutes}" style="color: blue;font-size: 15px;"></span></span>分
+				<span style="background: white;"><span id="countDown"
+				th:text="${remailSeconds}" style="color: blue;font-size: 15px;"></span></span> 秒</span ></div>
+				<div class="panel-body">
+					<span th:if="${session.userp==null}">您还没有登录，请登录后再操作</span>
+				</div>
+			</div>
+			
+	<div class="row">
+    <div class="col-sm-6 col-md-3">
+         <div class="thumbnail">
+            <img src="images/kittens.jpg" 
+             alt="通用的占位符缩略图">
+            <div class="caption">
+                <div th:text="${sekill.goodsname}"></div>           
+                <a th:text="'￥'+${afterPrice}" style="color: red;font-size: 25px;"></a>                        <a th:text="'￥'+${beforPrice}" style="color: gray;text-decoration: line-through;"></a>            <a style="margin-right: true;" th:text="已售：90"></a>               
+                <div style="width :100%;height: 16px;background: gray" id="outdiv">
+                    <div style="height: 16px;text-align: center;background: red;" id="indiv">
+                    </div>
+                </div>
+                <p></p>
+                <p>
+                <a th:href="@{/detail(id=${sekill.id})}" style="height: 40px;" class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀
+				</a>
+                </p>
+            </div>
+         </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+         <div class="thumbnail">
+            <img src="images/kittens.jpg" 
+             alt="通用的占位符缩略图">
+            <div class="caption">
+                <div th:text="${sekill.goodsname}"></div>           
+                <a th:text="'￥'+${afterPrice}" style="color: red;font-size: 25px;"></a>                        <a th:text="'￥'+${beforPrice}" style="color: gray;text-decoration: line-through;"></a>            <a style="margin-right: true;" th:text="已售：90"></a>               
+                <div style="width :100%;height: 16px;background: gray" id="outdiv">
+                    <div style="height: 16px;text-align: center;background: red;" id="indiv">
+                    </div>
+                </div>
+                <p></p>
+                <p>
+                <a th:href="@{/detail(id=${sekill.id})}" style="height: 40px;" class="btn btn-primary btn-block" type="submit" id="buyButton1">立即秒杀
+				</a>
+                </p>
+            </div>
+         </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+         <div class="thumbnail">
+            <img src="images/kittens.jpg" 
+             alt="通用的占位符缩略图">
+            <div class="caption">
+                <div th:text="${sekill.goodsname}"></div>           
+                <a th:text="'￥'+${afterPrice}" style="color: red;font-size: 25px;"></a>                        <a th:text="'￥'+${beforPrice}" style="color: gray;text-decoration: line-through;"></a>            <a style="margin-right: true;" th:text="已售：90"></a>               
+                <div style="width :100%;height: 16px;background: gray" id="outdiv">
+                    <div style="height: 16px;text-align: center;background: red;" id="indiv">
+                    </div>
+                </div>
+                <p></p>
+                <p>
+                <a th:href="@{/detail(id=${sekill.id})}" style="height: 40px;" class="btn btn-primary btn-block" type="submit" id="buyButton2">立即秒杀
+				</a>
+                </p>
+            </div>
+         </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+         <div class="thumbnail">
+            <img src="images/kittens.jpg" 
+             alt="通用的占位符缩略图">
+            <div class="caption">
+                <div th:text="${sekill.goodsname}"></div>           
+                <a th:text="'￥'+${afterPrice}" style="color: red;font-size: 25px;"></a>                        <a th:text="'￥'+${beforPrice}" style="color: gray;text-decoration: line-through;"></a>            <a style="margin-right: true;" th:text="已售：90"></a>               
+                <div style="width :100%;height: 16px;background: gray" id="outdiv">
+                    <div style="height: 16px;text-align: center;background: red;" id="indiv">
+                    </div>
+                </div>
+                <p></p>
+                <p>
+                <a th:href="@{/detail(id=${sekill.id})}" style="height: 40px;" class="btn btn-primary btn-block" type="submit" id="buyButton3">立即秒杀
+				</a>
+                </p>
+            </div>
+         </div>
+    </div>
+</div>
+<script type="text/javascript">document.getElementById("indiv").style.width="10%";</script>
+			<a id="section-2" th:href="@{/content(id=0)}" style="font-size: 35px;">女装</a>
+			<p>Nullam hendrerit justo non leo aliquet imperdiet. Etiam in
+				sagittis lectus. Suspendisse ultrices placerat accumsan. Mauris quis
+				dapibus orci. In dapibus velit blandit pharetra tincidunt. Quisque
+				non sapien nec lacus condimentum facilisis ut iaculis enim. Sed
+				viverra interdum bibendum. Donec ac sollicitudin dolor. Sed
+				fringilla vitae lacus at rutrum. Phasellus congue vestibulum ligula
+				sed consequat.</p>
+			<p>Vestibulum consectetur scelerisque lacus, ac fermentum lorem
+				convallis sed. Nam odio tortor, dictum quis malesuada at,
+				pellentesque vitae orci. Vivamus elementum, felis eu auctor
+				lobortis, diam velit egestas lacus, quis fermentum metus ante quis
+				urna. Sed at facilisis libero. Cum sociis natoque penatibus et
+				magnis dis parturient montes, nascetur ridiculus mus. Vestibulum
+				bibendum blandit dolor. Nunc orci dolor, molestie nec nibh in,
+				hendrerit tincidunt ante. Vivamus sem augue, hendrerit non sapien
+				in, mollis ornare augue.</p>
+			<hr>
+			<div class="row">
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/289-333-w01.jpg">
+				</div>
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/289-333-w02.jpg">
+				</div>
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/289-333-w03.jpg">
+				</div>
+			</div>
+			<a id="section-3" th:href="@{/content(id=1)}" style="font-size: 35px;">童装</a>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+					<img alt="加载中" src="/images/593-333-kid.jpg">
+				</div>
+				<div class="col-xs-3">
+					<img alt="加载中" src="/images/290-333-child.jpg">
+				</div>
+				<div class="col-xs-3">
+					<img alt="加载中" src="/images/290-333-youth.jpg">
+				</div>
+			</div>
+			<a id="section-4" th:href="@{/content(id=2)}" style="font-size: 35px;">运动</a>
+				<div class="row">
+                     <div class="col-sm-6 col-md-3" th:each="goodsList:${goodslist}">
+                         <div class="thumbnail">
+                             <img th:src="'/images/'+${goodsList.pic}" 
+                                  alt="通用的占位符缩略图">
+                         <div class="caption">
+                         <div th:text="${goodsList.name}"></div>
+                         <input type="hidden" id="goodsSellCount" th:value="${goodsList.sellCount}">           
+                         <a th:text="'￥'+${goodsList.price}" style="color: red;font-size: 25px;"></a>             <a style="margin-right: true;" th:text="'已售：'+${goodsList.sellCount}"></a>               
+                         <div style="width :100%;height: 16px;background: gray" id="outdiv">
+                         <div style="height: 16px;text-align: center;background: red;" id="'indivs'+${goodsList.id}">
+                         </div>
+                         </div>
+                         <p></p>
+                         <p>
+                         <a th:href="@{/detail(id=${goodsList.id})}" style="height: 40px;" class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀
+				         </a>
+                         </p>
+                               </div>
+                               </div>
+                               </div>
+                               </div>
+<script type="text/javascript">
+var sell=$("#goodsSellCount").val();
+document.getElementById("'indivs'+${goodsList.id}").style.width=sell+"%";</script>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<hr>
+			<div class="row">
+				<div class="col-xs-6">
+					<img alt="加载中" src="/images/feature593-333.jpg">
+				</div>
+				<div class="col-xs-6">
+					<img alt="加载中" src="/images/593-333-clima-men.jpg">
+				</div>
+			</div>
+			<a id="section-5" th:href="@{/content(id=3)}" style="font-size: 35px;">精选</a>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<hr>
+			<div class="row">
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/keyfranchise-239-240-5gods.gif">
+				</div>
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/jingxuan-ub-pc-G27519.jpg">
+				</div>
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/keyfranchise-239-240-FX8895.jpg">
+				</div>
+			</div>
+			<a id="section-6" th:href="@{/content(id=4)}" style="font-size: 35px;">男装</a>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<p>Integer pulvinar leo id risus pellentesque vestibulum. Sed
+				diam libero, sodales eget sapien vel, porttitor bibendum enim. Donec
+				sed nibh vitae lorem porttitor blandit in nec ante. Pellentesque
+				vitae metus ipsum. Phasellus sed nunc ac sem malesuada condimentum.
+				Etiam in aliquam lectus. Nam vel sapien diam. Donec pharetra id arcu
+				eget blandit. Proin imperdiet mattis augue in porttitor. Quisque
+				tempus enim id lobortis feugiat. Suspendisse tincidunt risus quis
+				dolor fringilla blandit. Ut sed sapien at purus lacinia porttitor.
+				Nullam iaculis, felis a pretium ornare, dolor nisl semper tortor,
+				vel sagittis lacus est consequat eros. Sed id pretium nisl.
+				Curabitur dolor nisl, laoreet vitae aliquam id, tincidunt sit amet
+				mauris.</p>
+			<p>Phasellus vitae suscipit justo. Mauris pharetra feugiat ante
+				id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus
+				turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel
+				tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget
+				ante rutrum adipiscing. Cras interdum ipsum mattis, tempus mauris
+				vel, semper ipsum. Duis sed dolor ut enim lobortis pellentesque
+				ultricies ac ligula. Pellentesque convallis elit nisi, id vulputate
+				ipsum ullamcorper ut. Cras ac pulvinar purus, ac viverra est.
+				Suspendisse potenti. Integer pellentesque neque et elementum tempus.
+				Curabitur bibendum in ligula ut rhoncus.</p>
+			<p>Quisque pharetra velit id velit iaculis pretium. Nullam a
+				justo sed ligula porta semper eu quis enim. Pellentesque
+				pellentesque, metus at facilisis hendrerit, lectus velit facilisis
+				leo, quis volutpat turpis arcu quis enim. Nulla viverra lorem
+				elementum interdum ultricies. Suspendisse accumsan quam nec ante
+				mollis tempus. Morbi vel accumsan diam, eget convallis tellus.
+				Suspendisse potenti.</p>
+			<hr>
+			<div class="row">
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/289-333-m01.jpg">
+				</div>
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/289-333-m02.jpg">
+				</div>
+				<div class="col-xs-4">
+					<img alt="加载中" src="/images/289-333-m03.jpg">
+				</div>
+			</div>
+			</div>		
+</body>
+</html>

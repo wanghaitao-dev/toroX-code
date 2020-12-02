@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div th:replace="header::bootstrap"></div>
+<style>
+form.form-horizontal{
+margin-top: 80px;
+margin-left: 80px;
+}
+</style>
+</head>
+<body>
+<div th:replace="header::header"></div>
+<div class="container">
+	<form class="form-horizontal" role="form" method="post" >
+		<div class="form-group">
+			<label for="firstname" class="col-sm-2 control-label">用户名</label>
+			<div class="col-sm-4">
+				<input type="text" name="user" class="form-control" id="firstname"
+					placeholder="请输入用户名">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="lastname" class="col-sm-2 control-label">密码</label>
+			<div class="col-sm-4">
+				<input type="password" name="pass" class="form-control"
+					id="lastname" placeholder="请输入密码">
+			</div>
+			</div>
+			<div class="form-group">
+			<label for="firstname" class="col-sm-2 control-label">验证码</label>
+			<div class="col-sm-4">
+				<input type="text" name="valicode" class="form-control" placeholder="请输入验证码">	
+				<img id="captchaImage" src="captcha" />
+			</div>
+		</div>		
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<div class="checkbox">
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">登录</button>
+			</div>
+		</div>
+	</form>
+	<p th:text="${error}"></p>
+	</div>	
+</body>
+</html>
